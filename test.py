@@ -1,7 +1,9 @@
-"""comment
+"""
+comment
 """
 
-def hello():
+def hello(x):
+    x = 2
     print('hello!')
 
 hello()

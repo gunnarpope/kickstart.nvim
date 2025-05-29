@@ -779,7 +779,21 @@ require('lazy').setup({
       },
     },
   },
-
+  -- gcp configs
+  { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+  },
+  {
+    'TabbyML/vim-tabby',
+    lazy = false,
+    dependencies = { 'neovim/nvim-lspconfig' },
+    init = function()
+      vim.g.tabby_agent_start_command = { 'npx', 'tabby-agent', '--stdio' }
+      vim.g.tabby_inline_completion_trigger = 'auto'
+    end,
+  },
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
@@ -893,10 +907,17 @@ require('lazy').setup({
         strings = 'italic',
         variables = 'bold',
       },
-
       lualine = {
         transparent = true, -- lualine center bar transparency
       },
+    },
+    highlights = {
+      ['@lsp.type.keyword'] = { fg = '$green' },
+      ['@lsp.type.property'] = { fg = '$bright_orange', bg = '#00ff00', fmt = 'bold' },
+      ['@lsp.type.function'] = { fg = '#0000ff', sp = '$cyan', fmt = 'underline,italic' },
+      ['@lsp.type.method'] = { link = '@function' },
+      -- To add language specific config
+      ['@lsp.type.variable.go'] = { fg = 'none' },
     },
     config = function(_, opts)
       require('onedark').setup(opts)
@@ -933,8 +954,8 @@ require('lazy').setup({
   --   },
   --
   --   -- Custom Highlights --
-  --   colors = {}, -- Override default colors
-  --   highlights = {}, -- Override highlight groups
+  -- colors = {}, -- Override default colors
+  -- highlights = {}, -- Override highlight groups
   --
   --   -- Plugins Config --
   --   diagnostics = {
@@ -1023,11 +1044,11 @@ require('lazy').setup({
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
-        enable = true,
+        enable = false, -- gcp disables variable highlighting
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        additional_vim_regex_highlighting = { 'ruby', 'python' },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
@@ -1048,9 +1069,9 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
@@ -1088,5 +1109,5 @@ require('lazy').setup({
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2
 --
