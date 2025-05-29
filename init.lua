@@ -91,7 +91,18 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- gcp added
-vim.o.termguicolors = true
+vim.o.termguicolors = false
+
+vim.cmd [[
+  highlight Normal guibg=#000000
+  highlight EndOfBuffer guibg=#000000 guifg=#000000
+]]
+
+-- Hide all semantic highlights
+-- for _, group in ipairs(vim.fn.getcompletion('@lsp', 'highlight')) do
+--   vim.api.nvim_set_hl(0, group, {})
+-- end
+-- end gcp added
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
@@ -105,7 +116,7 @@ vim.g.have_nerd_font = false
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -907,23 +918,27 @@ require('lazy').setup({
         strings = 'italic',
         variables = 'bold',
       },
+      highlights = {
+        EndOfBuffer = { fg = '#000000', bg = '#000000' },
+      },
       lualine = {
         transparent = true, -- lualine center bar transparency
       },
     },
     highlights = {
-      ['@lsp.type.keyword'] = { fg = '$green' },
-      ['@lsp.type.property'] = { fg = '$bright_orange', bg = '#00ff00', fmt = 'bold' },
-      ['@lsp.type.function'] = { fg = '#0000ff', sp = '$cyan', fmt = 'underline,italic' },
-      ['@lsp.type.method'] = { link = '@function' },
-      -- To add language specific config
-      ['@lsp.type.variable.go'] = { fg = 'none' },
+      --   ['@lsp.type.keyword'] = { fg = '$green' },
+      --   ['@lsp.type.property'] = { fg = '$bright_orange', bg = '#00ff00', fmt = 'bold' },
+      ['@lsp.type.function'] = {}, -- { fg = '#0000ff', sp = '$cyan', fmt = 'underline,italic' },
+      --   ['@lsp.type.method'] = { link = '@function' },
+      --   -- To add language specific config
+      --   ['@lsp.type.variable.go'] = { fg = 'none' },
     },
     config = function(_, opts)
       require('onedark').setup(opts)
       vim.cmd.colorscheme 'onedark'
     end,
   },
+
   -- -- Lua
   -- require('onedark').setup {
   --   -- Main options --
@@ -987,7 +1002,6 @@ require('lazy').setup({
   --   config = function()
   --     require('onedark').setup {
   --       style = 'dark',
-
   --     }
   --     -- Enable theme
   --     require('onedark').load()
@@ -1107,7 +1121,10 @@ require('lazy').setup({
     },
   },
 })
-
+--
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2
---
+
+-- vim.opt.fillchars:append { eob = ' ' }
+
+-- vim.cmd 'set notermguicolors'
