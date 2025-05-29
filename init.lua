@@ -772,7 +772,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { 'isort', 'black' },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -883,57 +883,90 @@ require('lazy').setup({
     'navarasu/onedark.nvim',
     priority = 1000,
     opts = {
-      style = 'dark',
+      style = 'deep',
       transparent = true,
+      term_colors = true,
+      code_style = {
+        comments = 'italic',
+        keywords = 'bold',
+        functions = 'bold',
+        strings = 'italic',
+        variables = 'bold',
+      },
+
+      lualine = {
+        transparent = true, -- lualine center bar transparency
+      },
     },
     config = function(_, opts)
       require('onedark').setup(opts)
       vim.cmd.colorscheme 'onedark'
     end,
-    --config = function()
-    --  vim.cmd.colorscheme 'onedark'
-    --end,
   },
-  --  { -- You can easily change to a different colorscheme.
-  --    -- Change the name of the colorscheme plugin below, and then
-  --    -- change the command in the config to whatever the name of that colorscheme is.
-  --    --
-  --    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  --    --
-  --    'navarasu/onedark.nvim',
-  --    priority = 1000, -- make sure to load this before all the other start plugins
-  --    config = function()
-  --      require('onedark').setup {
-  --        style = 'dark',
-  --      }
-  --      -- Enable theme
-  --      -- require('onedark').load()
-  --      vim.cmd.colorscheme 'onedark'
-  --    end,
+  -- -- Lua
+  -- require('onedark').setup {
+  --   -- Main options --
+  --   style = 'darker', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+  --   transparent = false, -- Show/hide background
+  --   term_colors = true, -- Change terminal color as per the selected theme style
+  --   ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
+  --   cmp_itemkind_reverse = true, -- reverse item kind highlights in cmp menu
+  --
+  --   -- toggle theme style ---
+  --   toggle_style_key = nil, -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+  --   toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
+  --
+  --   -- Change code style ---
+  --   -- Options are italic, bold, underline, none
+  --   -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
+  --   code_style = {
+  --     comments = 'italic',
+  --     keywords = 'bold',
+  --     functions = 'bold',
+  --     strings = 'italic',
+  --     variables = 'bold',
+  --   },
+  --
+  --   -- Lualine options --
+  --   lualine = {
+  --     transparent = true, -- lualine center bar transparency
+  --   },
+  --
+  --   -- Custom Highlights --
+  --   colors = {}, -- Override default colors
+  --   highlights = {}, -- Override highlight groups
+  --
+  --   -- Plugins Config --
+  --   diagnostics = {
+  --     darker = true, -- darker colors for diagnostic
+  --     undercurl = true, -- use undercurl instead of underline for diagnostics
+  --     background = false, -- use background color for virtual text
+  --   },
+  --
+  --
+  -- {
+  --  'folke/tokyonight.nvim',
+  --  priority = 1000, -- Make sure to load this before all the other start plugins.
+  --  config = function()
+  --  ---@diagnostic disable-next-line: missing-fields
+  --  require('tokyonight').setup {
+  --  styles = {
+  --  comments = { italic = false }, -- Disable italics in comments
   --  },
-
-  -- 'folke/tokyonight.nvim',
-  -- priority = 1000, -- Make sure to load this before all the other start plugins.
-  -- config = function()
-  -- ---@diagnostic disable-next-line: missing-fields
-  -- require('tokyonight').setup {
-  -- styles = {
-  -- comments = { italic = false }, -- Disable italics in comments
-  -- },
-  -- }
-
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
   -- vim.cmd.colorscheme 'tokyonight-night'
   --end,
   -- },
+  --
   -- {
   --   'navarasu/onedark.nvim',
   --   priority = 1000, -- make sure to load this before all the other start plugins
   --   config = function()
   --     require('onedark').setup {
-  --       style = 'darker',
+  --       style = 'dark',
+
   --     }
   --     -- Enable theme
   --     require('onedark').load()
@@ -1057,43 +1090,3 @@ require('lazy').setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 --
--- Lua
--- require('onedark').setup {
---   -- Main options --
---   style = 'darker', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
---   transparent = false, -- Show/hide background
---   term_colors = true, -- Change terminal color as per the selected theme style
---   ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
---   cmp_itemkind_reverse = true, -- reverse item kind highlights in cmp menu
---
---   -- toggle theme style ---
---   toggle_style_key = nil, -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
---   toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
---
---   -- Change code style ---
---   -- Options are italic, bold, underline, none
---   -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
---   code_style = {
---     comments = 'italic',
---     keywords = 'bold',
---     functions = 'bold',
---     strings = 'italic',
---     variables = 'bold',
---   },
---
---   -- Lualine options --
---   lualine = {
---     transparent = true, -- lualine center bar transparency
---   },
---
---   -- Custom Highlights --
---   colors = {}, -- Override default colors
---   highlights = {}, -- Override highlight groups
---
---   -- Plugins Config --
---   diagnostics = {
---     darker = true, -- darker colors for diagnostic
---     undercurl = true, -- use undercurl instead of underline for diagnostics
---     background = false, -- use background color for virtual text
---   },
--- }
